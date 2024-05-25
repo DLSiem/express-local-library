@@ -4,7 +4,7 @@ const Book = require("../models/book");
 
 require("dotenv").config();
 
-const mongoDB = process.env.MONGO_URL;
+const mongoDB = process.env.MONGODB_URI;
 
 async function main() {
   await mongoose

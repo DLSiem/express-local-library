@@ -4,6 +4,8 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const mongoose = require("mongoose");
+const compression = require("compression");
+const helmet = require("helmet");
 
 require("dotenv").config();
 
@@ -15,16 +17,33 @@ const { config } = require("process");
 
 var app = express();
 
+// set a rate limiter: maximum of 20 requests per minute
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 20,
+});
+
+app.use(limiter);
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "script-src": ["self", "code.jquery.com", "cdn.jsdelivr.net"],
+    },
+  })
+);
+
 // connecting to mongodb database
 
 mongoose.set("strictQuery", false);
 
-const { MONGO_URL } = process.env;
+const { MONGODB_URI } = process.env;
 main().catch((err) => console.log(err));
 
 async function main() {
   await mongoose
-    .connect(MONGO_URL)
+    .connect(MONGODB_URI)
     .then(() => console.log("Connected to MongoDB"));
 }
 
@@ -37,6 +56,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(compression());
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const Author = require("../models/author");
 require("dotenv").config();
 
-const { MONGO_URL } = process.env;
+const { MONGODB_URI } = process.env;
 async function main() {
   await mongoose
-    .connect(MONGO_URL)
+    .connect(MONGODB_URI)
     .then(() => console.log("Connected to MongoDB"));
 
   const newAuthor = new Author({
