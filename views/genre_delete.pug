@@ -1,0 +1,28 @@
+extends layout 
+
+
+block content 
+    h1= title
+
+    h3 Genre: #{genre.name}
+
+    hr
+
+    div(style='margin-left:20px;margin-top:20px')
+
+        p #[strong Delete the following Books before attempting to delete this genre:]
+
+        if genre_books.length
+            h3 Books
+            dl
+            each book in genre_books
+                dt
+                    a(href=book.url) #{book.title}
+                dd #{book.summary}
+        else
+            form(method='POST')
+                div.form-group
+                    input#id.form-control(type='hidden', name='id', value=genre._id)
+                button.btn.btn-danger(type='submit') Delete
+
+    
