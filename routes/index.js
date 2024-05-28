@@ -17,7 +17,7 @@ const messages = [
 ];
 
 router.get("/", function (req, res, next) {
-  res.render("index", { title: "Express", messages: messages });
+  res.redirect("/catalog/");
 });
 
 router.get("/new", (req, res, next) => {

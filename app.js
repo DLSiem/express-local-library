@@ -38,12 +38,11 @@ app.use(
 
 mongoose.set("strictQuery", false);
 
-const { MONGODB_URI } = process.env;
 main().catch((err) => console.log(err));
 
 async function main() {
   await mongoose
-    .connect(MONGODB_URI)
+    .connect(process.env.MONGODB_URI)
     .then(() => console.log("Connected to MongoDB"));
 }
 

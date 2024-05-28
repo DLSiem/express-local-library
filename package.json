@@ -23,5 +23,8 @@
     "mongoose": "^8.4.0",
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.7"
   }
 }
